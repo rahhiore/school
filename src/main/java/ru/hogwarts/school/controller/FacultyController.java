@@ -1,9 +1,9 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
@@ -11,6 +11,7 @@ import java.util.Collection;
 @RequestMapping("/faculty")
 @RestController
 public class FacultyController {
+    @Autowired
     private final FacultyService facultyService;
 
     public FacultyController(FacultyService facultyService) {
@@ -27,12 +28,12 @@ public class FacultyController {
     }
     @PostMapping
     public ResponseEntity<Faculty> create(@RequestBody Faculty faculty) {
-        Faculty createFaculty = facultyService.put(faculty);
+        Faculty createFaculty = facultyService.post(faculty);
         return ResponseEntity.ok(createFaculty);
     }
     @PutMapping()
     public ResponseEntity<Faculty> update(@RequestBody Faculty faculty) {
-        Faculty putFaculty = facultyService.update(faculty.getId(), faculty);
+        Faculty putFaculty = facultyService.put(faculty.getId(), faculty);
         if (putFaculty == null) {
             return ResponseEntity.notFound().build();
         } else {

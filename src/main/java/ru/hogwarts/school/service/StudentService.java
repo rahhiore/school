@@ -1,33 +1,43 @@
 package ru.hogwarts.school.service;
 
-import org.apache.catalina.LifecycleState;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
-    private Long counter = 0L;
-    private final Map<Long, Student> studentMap = new HashMap<>();
+
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
     public Student get(Long id) {
-        return studentMap.get(id);
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isPresent()) {
+            return student.get();
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
     public Student post(Student student) {
-        studentMap.put(counter, student);
-        counter++;
-        return student;
+        return studentRepository.save(student);
     }
     public Student put(Long id, Student student) {
-        studentMap.put(counter, student);
-        return student;
+        return studentRepository.save(student);
     }
     public Student delete(Long id) {
-        return studentMap.remove(counter);
+        Student student = get(id);
+        studentRepository.deleteById(id);
+        return student;
     }
     public Collection<Student> ageFilter(Integer age) {
-        return studentMap.values().stream().filter(student -> student.getAge().equals(age))
+        return studentRepository.findAll().stream().filter(student -> student.getAge().equals(age))
                 .collect(Collectors.toList());
     }
 }
