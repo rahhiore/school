@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -40,7 +41,15 @@ public class FacultyService {
         return faculty;
     }
     public Collection<Faculty> colorFilter(String color) {
-        return facultyRepository.findAll().stream().filter(faculty -> faculty.getColor().equals(color))
-                .collect(Collectors.toList());
+        return facultyRepository.findByColorIgnoreCase(color);
+    }
+    public Collection<Faculty> findByName(String name) {
+        return facultyRepository.findByNameIgnoreCase(name);
+    }
+    public Collection<Faculty> findByNamePartIgnoreCase(String name) {
+        return facultyRepository.findByNamePartIgnoreCase(name);
+    }
+    public Collection<Faculty> getAllFaculty() {
+        return facultyRepository.findAll();
     }
 }

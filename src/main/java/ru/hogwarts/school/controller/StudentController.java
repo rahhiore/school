@@ -12,7 +12,6 @@ import java.util.Collection;
 @RequestMapping("/student")
 @RestController
 public class StudentController {
-    @Autowired
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -21,11 +20,7 @@ public class StudentController {
     @GetMapping("{id}")
     public ResponseEntity<Student> get(@PathVariable Long id) {
         Student student = studentService.get(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(student);
-        }
+        return ResponseEntity.ok(student);
     }
     @PostMapping
     public ResponseEntity<Student> create(@RequestBody Student student) {
@@ -35,24 +30,32 @@ public class StudentController {
     @PutMapping()
     public ResponseEntity<Student> put(@RequestBody Student student) {
         Student putStudent = studentService.put(student.getId(), student);
-        if (putStudent == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(putStudent);
-        }
+        return ResponseEntity.ok(putStudent);
     }
     @DeleteMapping("{id}")
     public ResponseEntity<Student> delete (@PathVariable Long id) {
         Student student = studentService.delete(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(student);
-        }
+        return ResponseEntity.ok(student);
     }
-    @GetMapping("age")
+    @GetMapping
     public ResponseEntity<Collection<Student>> ageFilter(@RequestParam Integer age) {
         Collection<Student> student = studentService.ageFilter(age);
         return ResponseEntity.ok(student);
+    }
+    @GetMapping
+    public ResponseEntity<Collection<Student>> findByAgeBetween(@RequestParam int min, @RequestParam int max) {
+        Collection<Student> student = studentService.findByAgeBetween(min, max);
+        return ResponseEntity.ok(student);
+    }
+    @GetMapping
+    public ResponseEntity<Collection<Student>> getAllStudent(@RequestParam(required = false) String name,
+                                                             @RequestParam(required = false) String namePart) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(studentService.findByName(name));
+        }
+        if (namePart != null && !namePart.isBlank()) {
+            return ResponseEntity.ok(studentService.findByNamePartIgnoreCase(namePart));
+        }
+        return ResponseEntity.ok(studentService.getAllStudent());
     }
 }
