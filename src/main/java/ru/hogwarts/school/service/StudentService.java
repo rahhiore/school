@@ -48,7 +48,7 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
     public Collection<Student> findByNamePartIgnoreCase(String name) {
-        return studentRepository.findByNamePartIgnoreCase(name);
+        return studentRepository.findByNameContainsIgnoreCase(name);
     }
     public Collection<Student> getAllStudent() {
         return studentRepository.findAll();

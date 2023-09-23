@@ -37,12 +37,12 @@ public class FacultyController {
         Faculty faculty = facultyService.delete(id);
         return ResponseEntity.ok(faculty);
     }
-    @GetMapping
+    @GetMapping("color")
     public ResponseEntity<Collection<Faculty>> colorFilter(@RequestParam String color) {
         Collection<Faculty> faculty = facultyService.colorFilter(color);
         return ResponseEntity.ok(faculty);
     }
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<Collection<Faculty>> getAllFaculty(@RequestParam(required = false) String name,
                                                              @RequestParam(required = false) String namePart) {
         if (name != null && !name.isBlank()) {
@@ -52,5 +52,9 @@ public class FacultyController {
             return ResponseEntity.ok(facultyService.findByNamePartIgnoreCase(namePart));
         }
         return ResponseEntity.ok(facultyService.getAllFaculty());
+    }
+    @GetMapping("student/{facultyId}")
+    public ResponseEntity<Collection<Student>> getStudent(@PathVariable Long facultyId) {
+        return ResponseEntity.ok(facultyService.get(facultyId).getStudent());
     }
 }

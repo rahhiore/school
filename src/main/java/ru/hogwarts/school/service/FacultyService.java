@@ -1,15 +1,12 @@
 package ru.hogwarts.school.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
@@ -47,7 +44,7 @@ public class FacultyService {
         return facultyRepository.findByNameIgnoreCase(name);
     }
     public Collection<Faculty> findByNamePartIgnoreCase(String name) {
-        return facultyRepository.findByNamePartIgnoreCase(name);
+        return facultyRepository.findByNameContainsIgnoreCase(name);
     }
     public Collection<Faculty> getAllFaculty() {
         return facultyRepository.findAll();

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -37,12 +38,12 @@ public class StudentController {
         Student student = studentService.delete(id);
         return ResponseEntity.ok(student);
     }
-    @GetMapping
+    @GetMapping("age")
     public ResponseEntity<Collection<Student>> ageFilter(@RequestParam Integer age) {
         Collection<Student> student = studentService.ageFilter(age);
         return ResponseEntity.ok(student);
     }
-    @GetMapping
+    @GetMapping("all")
     public ResponseEntity<Collection<Student>> findByAgeBetween(@RequestParam int min, @RequestParam int max) {
         Collection<Student> student = studentService.findByAgeBetween(min, max);
         return ResponseEntity.ok(student);
@@ -57,5 +58,10 @@ public class StudentController {
             return ResponseEntity.ok(studentService.findByNamePartIgnoreCase(namePart));
         }
         return ResponseEntity.ok(studentService.getAllStudent());
+    }
+
+    @GetMapping("faculty/{id}")
+     public ResponseEntity<Faculty> getFaculty(Long id) {
+        return ResponseEntity.ok(studentService.get(id).getFaculty());
     }
 }
