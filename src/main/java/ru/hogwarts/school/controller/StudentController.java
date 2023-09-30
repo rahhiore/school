@@ -43,25 +43,18 @@ public class StudentController {
         Collection<Student> student = studentService.ageFilter(age);
         return ResponseEntity.ok(student);
     }
-    @GetMapping("all")
+    @GetMapping("ageBetween")
     public ResponseEntity<Collection<Student>> findByAgeBetween(@RequestParam int min, @RequestParam int max) {
         Collection<Student> student = studentService.findByAgeBetween(min, max);
         return ResponseEntity.ok(student);
     }
-    @GetMapping
-    public ResponseEntity<Collection<Student>> getAllStudent(@RequestParam(required = false) String name,
-                                                             @RequestParam(required = false) String namePart) {
-        if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(studentService.findByName(name));
-        }
-        if (namePart != null && !namePart.isBlank()) {
-            return ResponseEntity.ok(studentService.findByNamePartIgnoreCase(namePart));
-        }
-        return ResponseEntity.ok(studentService.getAllStudent());
+    @GetMapping("name")
+    public ResponseEntity<Collection<Student>> getStudentByName(String namePart) {
+        return ResponseEntity.ok(studentService.findByNamePartIgnoreCase(namePart));
     }
 
-    @GetMapping("faculty/{id}")
-     public ResponseEntity<Faculty> getFaculty(Long id) {
+    @GetMapping("{id}/faculty")
+     public ResponseEntity<Faculty> getFaculty(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.get(id).getFaculty());
     }
 }

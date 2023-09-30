@@ -17,13 +17,16 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     @JsonManagedReference
     private Faculty faculty;
+    @OneToOne
+    private Avatar avatar;
     public Student(Long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
 
     }
-
+    public Student() {
+    }
     public Long getId() {
         return id;
     }

@@ -37,24 +37,13 @@ public class FacultyController {
         Faculty faculty = facultyService.delete(id);
         return ResponseEntity.ok(faculty);
     }
-    @GetMapping("color")
-    public ResponseEntity<Collection<Faculty>> colorFilter(@RequestParam String color) {
-        Collection<Faculty> faculty = facultyService.colorFilter(color);
-        return ResponseEntity.ok(faculty);
+    @GetMapping
+    public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam String nameOrColor) {
+        return ResponseEntity.ok(facultyService.findByColorIgnoreCaseOrByNameContainsIgnoreCase(nameOrColor));
+
     }
-    @GetMapping("all")
-    public ResponseEntity<Collection<Faculty>> getAllFaculty(@RequestParam(required = false) String name,
-                                                             @RequestParam(required = false) String namePart) {
-        if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(facultyService.findByName(name));
-        }
-        if (namePart != null && !namePart.isBlank()) {
-            return ResponseEntity.ok(facultyService.findByNamePartIgnoreCase(namePart));
-        }
-        return ResponseEntity.ok(facultyService.getAllFaculty());
-    }
-    @GetMapping("student/{facultyId}")
-    public ResponseEntity<Collection<Student>> getStudent(@PathVariable Long facultyId) {
-        return ResponseEntity.ok(facultyService.get(facultyId).getStudent());
+    @GetMapping("/{id}/students")
+    public ResponseEntity<Collection<Student>> getStudentByID(@PathVariable Long id) {
+        return ResponseEntity.ok(facultyService.get(id).getStudent());
     }
 }
