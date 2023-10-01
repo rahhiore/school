@@ -7,6 +7,6 @@ import ru.hogwarts.school.model.Faculty;
 import java.util.Collection;
 
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
-    Collection<Faculty> findByColorIgnoreCaseOrByNameContainsIgnoreCase(@Param("color") String color,@Param("name") String name);
+    Collection<Faculty> findByColorIgnoreCaseOrNameContainsIgnoreCase(@Param("color") String color,@Param("name") String name);
 
 }

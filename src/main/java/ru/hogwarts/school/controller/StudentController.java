@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -10,7 +11,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 
-@RequestMapping("/student")
+@RequestMapping(value = "/student")
 @RestController
 public class StudentController {
     private final StudentService studentService;
