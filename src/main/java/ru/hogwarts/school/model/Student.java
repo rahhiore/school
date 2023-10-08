@@ -11,13 +11,12 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int age;
+    private Integer age;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id")
-    @JsonManagedReference
     private Faculty faculty;
-    public Student(Long id, String name, int age) {
+    public Student(Long id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;

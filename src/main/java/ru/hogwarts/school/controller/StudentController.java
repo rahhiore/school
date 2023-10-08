@@ -19,7 +19,7 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}")
     public ResponseEntity<Student> get(@PathVariable Long id) {
         Student student = studentService.get(id);
         return ResponseEntity.ok(student);
