@@ -17,7 +17,7 @@ public class Faculty {
 
     private String name;
     private String color;
-    @OneToMany(mappedBy = "faculty")
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private Collection<Student> student;
     public Faculty(Long id, String name, String color) {

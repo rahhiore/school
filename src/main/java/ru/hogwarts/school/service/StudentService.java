@@ -48,4 +48,13 @@ public class StudentService {
     public Collection<Student> findByNamePartIgnoreCase(String name) {
         return studentRepository.findByNameContainsIgnoreCase(name);
     }
+    public Integer countStudent() {
+        return studentRepository.countStudent();
+    }
+    public Integer averageAge() {
+        return studentRepository.averageAge();
+    }
+    public Collection<Student> lastFiveStudent() {
+        return studentRepository.lastFiveStudents();
+    }
 }
