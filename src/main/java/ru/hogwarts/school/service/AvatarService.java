@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,14 +32,17 @@ public class AvatarService {
 
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
         this.studentService = studentService;
     }
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method for get avatar");
         return avatarRepository.findByStudentId(studentId).orElseThrow(EntityNotFoundException::new);
     }
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method for update avatar");
         Student student = studentService.get(studentId);
         Path filePath = buildFilePath(student, avatarFile.getOriginalFilename());
         Files.createDirectories(filePath.getParent());
@@ -59,12 +64,15 @@ public class AvatarService {
         avatarRepository.save(avatar);
     }
     public Collection<Avatar> getPage(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method for get page");
         return avatarRepository.findAll(PageRequest.of(pageNumber - 1, pageSize)).getContent();
     }
     private String getExtensions(String fileName) {
+        logger.info("Was invoked method for get extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
     private  Path buildFilePath(Student student, String fileName) {
+        logger.info("Was invoked method for build file path");
         return Path.of(avatarsDir, student.getId() + "_" + student.getName() + "." + getExtensions(fileName));
     }
 }
