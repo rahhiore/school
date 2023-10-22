@@ -9,6 +9,8 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -70,5 +72,17 @@ public class StudentService {
     public Collection<Student> lastFiveStudent() {
         logger.info("Was invoked method for get last five students");
         return studentRepository.lastFiveStudents();
+    }
+
+    public Collection<Student> getSortedStudentWithStartCharA() {
+        logger.info("Was invoked method for get sorted students with start char A");
+        List<Student> studentsList = studentRepository.findAll();
+        return studentsList.stream().filter(student -> student.getName()
+                .startsWith("A")).sorted().collect(Collectors.toList());
+    }
+    public OptionalDouble getAverageAgeWithStream() {
+        logger.info("Was invoked method for get average age");
+        List<Student> studentsList = studentRepository.findAll();
+        return studentsList.stream().mapToInt(Student::getAge).average();
     }
 }

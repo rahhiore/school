@@ -1,8 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -10,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.OptionalDouble;
 
 @RequestMapping(value = "/student")
 @RestController
@@ -70,5 +68,13 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> getLastFiveStudent() {
         Collection<Student> student = studentService.lastFiveStudent();
         return ResponseEntity.ok(student);
+    }
+    @GetMapping("sorted_students")
+    public ResponseEntity<Collection<Student>> getSortedStudents() {
+        return ResponseEntity.ok(studentService.getSortedStudentWithStartCharA());
+    }
+    @GetMapping("average_age_stream")
+    public ResponseEntity<OptionalDouble> getAverageAgeStream() {
+        return ResponseEntity.ok(studentService.getAverageAgeWithStream());
     }
 }

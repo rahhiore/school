@@ -48,4 +48,14 @@ public class FacultyController {
     public ResponseEntity<Collection<Student>> getStudentByID(@PathVariable Long id) {
         return ResponseEntity.ok(facultyService.get(id).getStudent());
     }
+    @GetMapping("/longest_name")
+    public ResponseEntity<String> getTheLongestName() {
+        return ResponseEntity.ok(facultyService.getTheLongestName());
+    }
+    @GetMapping("/return_num")
+    public ResponseEntity<String> returnNum(@RequestParam Integer limit) {
+        return ResponseEntity.ok("Num without parallel: " + facultyService.returnNum(limit)
+                + "\nNum with parallel: " + facultyService.returnNumWithParallel(limit)
+                + "\nNum with integer stream: " + facultyService.returnNumWithIntStream(limit));
+    }
 }
