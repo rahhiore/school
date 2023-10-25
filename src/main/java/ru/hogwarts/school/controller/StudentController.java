@@ -77,4 +77,14 @@ public class StudentController {
     public ResponseEntity<OptionalDouble> getAverageAgeStream() {
         return ResponseEntity.ok(studentService.getAverageAgeWithStream());
     }
+    @GetMapping("print_student_name")
+    public ResponseEntity<Void> printStudentName() {
+        studentService.printStudents();
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("print_student_name_sync")
+    public ResponseEntity<Void> printStudentNameSync() {
+        studentService.printStudentsSync();
+        return ResponseEntity.ok().build();
+    }
 }

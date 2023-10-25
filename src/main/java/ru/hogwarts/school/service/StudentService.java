@@ -85,4 +85,41 @@ public class StudentService {
         List<Student> studentsList = studentRepository.findAll();
         return studentsList.stream().mapToInt(Student::getAge).average();
     }
+
+    public void printStudents() {
+        List<Student> students = studentRepository.findAll();
+        if (students.size() >= 6) {
+            students.subList(0, 2).forEach(this::printStudentName);
+            printStudents(students.subList(2,4));
+            printStudents(students.subList(4,6));
+        }
+    }
+
+    public void printStudentsSync() {
+        List<Student> students = studentRepository.findAll();
+        if (students.size() >= 6) {
+            students.subList(0, 2).forEach(this::printStudentNameSync);
+            printStudentsSync(students.subList(2,4));
+            printStudentsSync(students.subList(4,6));
+        }
+    }
+
+    private void printStudentsSync(List<Student> students) {
+        new Thread(()-> {
+            students.forEach(this::printStudentNameSync);
+        }).start();
+    }
+
+    private synchronized void printStudentNameSync(Student student) {
+        System.out.println("Student, id: " + student.getId() + ", name: " + student.getName());
+    }
+
+    private void printStudents(List<Student> students) {
+        new Thread(()-> {
+            students.forEach(this::printStudentName);
+        }).start();
+    }
+    private void printStudentName(Student student) {
+        System.out.println("Student, id: " + student.getId() + ", name: " + student.getName());
+    }
 }
